@@ -1,6 +1,7 @@
 import SearchList from "./components/SearchList";
 import FullList from "./components/FullList";
 import SearchBar from "../UI/SearchBar";
+import UserList from "./components/UserList";
 
 export default async function MoviesPage({
   searchParams: searchParamsPromise,
@@ -28,6 +29,10 @@ export default async function MoviesPage({
       <section className="p-2 border-2 border-black rounded-xl">
         <h2 className="text-xl font-bold">Most Popular</h2>
         <FullList searchParams={searchParams} />
+      </section>
+      <section className="p-2 border-2 border-black rounded-xl">
+        <h2 className="text-xl font-bold">Your Top Movies</h2>
+        <UserList />
       </section>
     </main>
   );
