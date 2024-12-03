@@ -16,7 +16,6 @@ export default async function SearchList({ searchParams }) {
 
   return (
     <section className="">
-      <h1 className="text-2xl font-bold">Search Results</h1>
       <ul className="mb-4 list-disc list-inside">
         {data.movies.map((movie) => (
           <li key={movie.id}>

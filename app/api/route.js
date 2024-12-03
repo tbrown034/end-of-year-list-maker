@@ -6,9 +6,10 @@ export async function GET(request) {
   // Fetch query parameters
   const id = urlParams.get("id"); // If `id` is present, fetch a specific movie
   const query = urlParams.get("query"); // If `query` is present, perform a search
-  const page = urlParams.get("page") || 1; // Default to page 1
+  const page = parseInt(urlParams.get("page") || "1", 10); // Default to page 1
   const year = new Date().getFullYear(); // Use the current year
   const sortBy = urlParams.get("sort_by") || "vote_count.desc"; // Default to vote totals
+  const MAX_PAGES = 20; // Limit to 20 pages
 
   const token = process.env.TMDM_API_KEY;
 
@@ -26,12 +27,12 @@ export async function GET(request) {
     // Fetch details for a specific movie
     url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
   } else if (query) {
-    // Perform a search (cannot filter by year directly in the query)
+    // Perform a search
     url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
       query
     )}&page=${page}&include_adult=false&language=en-US`;
   } else {
-    // Fetch a list of movies
+    // Fetch a list of movies for the full list
     url = `https://api.themoviedb.org/3/discover/movie?primary_release_year=${year}&sort_by=${sortBy}&page=${page}&include_adult=false&language=en-US`;
   }
 
@@ -54,7 +55,7 @@ export async function GET(request) {
 
     const data = await response.json();
 
-    // Apply a year filter to search results if needed
+    // Apply a year filter to search results
     if (query) {
       const filteredMovies = data.results.filter(
         (movie) =>
@@ -63,18 +64,21 @@ export async function GET(request) {
 
       return NextResponse.json({
         movies: filteredMovies,
-        totalPages: Math.ceil(filteredMovies.length / 20), // Update pagination
+        totalPages: Math.ceil(filteredMovies.length / 20), // Calculate pagination
       });
     }
 
-    // Return appropriate response format
-    if (id) {
-      return NextResponse.json({ movie: data }); // For single movie
-    } else {
+    // For full list, limit the number of pages to MAX_PAGES
+    if (!id && !query) {
       return NextResponse.json({
         movies: data.results,
-        totalPages: data.total_pages,
-      }); // For movie list
+        totalPages: Math.min(data.total_pages, MAX_PAGES),
+      });
+    }
+
+    // Return movie details for a specific movie
+    if (id) {
+      return NextResponse.json({ movie: data });
     }
   } catch (error) {
     console.error(`[ERROR]: ${error.message}`);

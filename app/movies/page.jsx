@@ -9,25 +9,26 @@ export default async function MoviesPage({
   const query = searchParams?.query || ""; // Extract query from URL
 
   return (
-    <main className="p-8">
-      <h1 className="mb-4 text-3xl font-bold">Movies</h1>
-
-      {/* Search Section */}
-      <section className="p-4 mb-6 border border-gray-800 rounded">
-        <h2 className="mb-2 text-xl font-bold">Search Movies</h2>
-        <SearchBar query={query} />
-        <div className="mt-4">
-          {query ? (
-            <SearchList searchParams={searchParams} />
-          ) : (
-            <p className="text-gray-400">Start typing to search for movies.</p>
-          )}
+    <main className="flex flex-col gap-4">
+      <div>
+        <h1 className="text-3xl font-bold">Movies</h1>
+        <h3 className="text-xl">Select Your Top Movies</h3>
+      </div>
+      {/* Search */}
+      <section className="p-2 border-2 border-black rounded-xl">
+        <h2 className="text-xl font-bold">Search Movies</h2>
+        <div className="flex">
+          <SearchBar query={query} />
         </div>
+        {query && (
+          <div className="">
+            <SearchList searchParams={searchParams} />
+          </div>
+        )}
       </section>
-
-      {/* Top Movies Section */}
-      <section className="p-4 border border-gray-800 rounded">
-        <h2 className="mb-2 text-xl font-bold">Top Movies by Votes</h2>
+      {/* Top Movies */}
+      <section className="p-2 border-2 border-black rounded-xl">
+        <h2 className="text-xl font-bold">Most Popular</h2>
         <FullList searchParams={searchParams} />
       </section>
     </main>

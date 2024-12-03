@@ -13,8 +13,8 @@ export default async function FullList({ searchParams }) {
   const { movies, totalPages } = data;
 
   return (
-    <section className="p-8">
-      <h1 className="text-2xl font-bold">Top Movies by Votes</h1>
+    <section className="">
+      <PaginationControls currentPage={currentPage} totalPages={totalPages} />
       <ul className="mb-4 list-disc list-inside">
         {movies.map((movie) => (
           <li key={movie.id}>
@@ -22,7 +22,6 @@ export default async function FullList({ searchParams }) {
           </li>
         ))}
       </ul>
-      <PaginationControls currentPage={currentPage} totalPages={totalPages} />
     </section>
   );
 }
