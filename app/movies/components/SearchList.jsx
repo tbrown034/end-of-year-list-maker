@@ -16,10 +16,12 @@ export default async function SearchList({ searchParams }) {
 
   return (
     <section className="">
-      <ul className="mb-4 list-disc list-inside">
+      <ul className="list-disc list-inside ">
         {data.movies.map((movie) => (
           <li key={movie.id}>
-            <Link href={`/movies/${movie.id}`}>{movie.title}</Link>{" "}
+            <Link className="hover:font-bold" href={`/movies/${movie.id}`}>
+              {movie.title}
+            </Link>{" "}
           </li>
         ))}
       </ul>

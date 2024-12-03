@@ -13,12 +13,14 @@ export default async function FullList({ searchParams }) {
   const { movies, totalPages } = data;
 
   return (
-    <section className="">
+    <section className="flex flex-col gap-4">
       <PaginationControls currentPage={currentPage} totalPages={totalPages} />
-      <ul className="mb-4 list-disc list-inside">
+      <ul className="list-disc list-inside ">
         {movies.map((movie) => (
           <li key={movie.id}>
-            <Link href={`/movies/${movie.id}`}>{movie.title}</Link>{" "}
+            <Link className="hover:font-bold" href={`/movies/${movie.id}`}>
+              {movie.title}
+            </Link>{" "}
           </li>
         ))}
       </ul>
