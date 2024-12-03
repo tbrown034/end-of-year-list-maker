@@ -1,7 +1,7 @@
-// app/movies/page.jsx
 import PaginationControls from "../UI/PaginationControls";
+
 export default async function MoviesPage({ searchParams }) {
-  const currentPage = parseInt(searchParams?.page || 1, 10);
+  const currentPage = parseInt((await searchParams)?.page || 1, 10);
 
   // Fetch movies from the API route
   const fetchMovies = async (page) => {
