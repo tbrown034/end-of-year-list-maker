@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -12,8 +13,12 @@ const Hero = () => {
         </h3>
       </div>
       <div className="flex gap-4">
-        <button className="p-2 border-2 rounded black">Button 1</button>
-        <button className="p-2 border-2 rounded black">Button 2</button>
+        <Link href="/movies" className="p-2 border-2 rounded black">
+          Movies
+        </Link>
+        <Link href="/login" className="p-2 border-2 rounded black">
+          Log In
+        </Link>
       </div>
       <Image
         src="https://picsum.photos/600/300"
