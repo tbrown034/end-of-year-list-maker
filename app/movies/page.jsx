@@ -1,4 +1,5 @@
 import PaginationControls from "../UI/PaginationControls";
+import Link from "next/link";
 
 export default async function MoviesPage({ searchParams }) {
   const currentPage = parseInt((await searchParams)?.page || 1, 10);
@@ -43,7 +44,9 @@ export default async function MoviesPage({ searchParams }) {
 
       <ul className="mb-4 list-disc list-inside">
         {movies.map((movie) => (
-          <li key={movie.id}>{movie.title}</li>
+          <li key={movie.id}>
+            <Link href={`/movies/${movie.id}`}>{movie.title}</Link>{" "}
+          </li>
         ))}
       </ul>
 

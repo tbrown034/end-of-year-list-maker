@@ -1,5 +1,5 @@
 export default async function MovieDetailsPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   const fetchMovieDetails = async (movieId) => {
     const response = await fetch(
@@ -14,11 +14,12 @@ export default async function MovieDetailsPage({ params }) {
     return response.json();
   };
 
-  let movie;
+  let movieData;
 
   try {
-    movie = await fetchMovieDetails(id);
+    movieData = await fetchMovieDetails(id);
   } catch (error) {
+    console.error("Error fetching movie details:", error.message);
     return (
       <section className="p-8">
         <h1 className="text-2xl font-bold text-red-600">
@@ -28,6 +29,9 @@ export default async function MovieDetailsPage({ params }) {
       </section>
     );
   }
+
+  // Extract the actual movie object from the API response
+  const movie = movieData.movie;
 
   return (
     <section className="p-8">
