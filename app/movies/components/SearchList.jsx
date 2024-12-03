@@ -1,11 +1,13 @@
 import Link from "next/link";
 
-export default async function SearchList({ searchParams }) {
-  const query = searchParams?.query || ""; // Get the query from searchParams
+export default async function SearchList({ query }) {
+  if (!query) return null; // No need to render anything if there's no query
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api?query=${query}`,
-    { cache: "no-store" } // Correct the path
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api?query=${encodeURIComponent(
+      query
+    )}`,
+    { cache: "no-store" }
   );
 
   if (!response.ok) {
@@ -15,16 +17,21 @@ export default async function SearchList({ searchParams }) {
   const data = await response.json();
 
   return (
-    <section className="">
-      <ul className="list-disc list-inside ">
-        {data.movies.map((movie) => (
-          <li key={movie.id}>
-            <Link className="hover:font-bold" href={`/movies/${movie.id}`}>
-              {movie.title}
-            </Link>{" "}
-          </li>
-        ))}
-      </ul>
+    <section className="mt-4">
+      <h3 className="mb-2 text-lg font-bold">Search Results</h3>
+      {data.movies.length > 0 ? (
+        <ul className="list-disc list-inside">
+          {data.movies.map((movie) => (
+            <li key={movie.id}>
+              <Link href={`/movies/${movie.id}`} className="hover:font-bold">
+                {movie.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">No results found for "{query}".</p>
+      )}
     </section>
   );
 }

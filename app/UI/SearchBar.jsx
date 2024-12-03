@@ -8,17 +8,17 @@ export default function SearchBar({ query }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Debounced search handler to minimize requests
+  // Debounced handler for updating the query
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
-      params.set("query", term); // Add or update query
+      params.set("query", term); // Add or update the query
     } else {
-      params.delete("query"); // Remove query if empty
+      params.delete("query"); // Remove the query if it's empty
     }
 
-    router.push(`${pathname}?${params.toString()}`); // Update URL dynamically
+    router.push(`${pathname}?${params.toString()}`); // Update the URL
   }, 300);
 
   return (
@@ -26,8 +26,8 @@ export default function SearchBar({ query }) {
       type="text"
       className="w-full p-2 text-black border rounded-md"
       placeholder="Search movies..."
-      defaultValue={query} // Show the current query
-      onChange={(e) => handleSearch(e.target.value)} // Trigger handleSearch
+      defaultValue={query} // Display the current query in the input field
+      onChange={(e) => handleSearch(e.target.value)} // Trigger search on input change
     />
   );
 }
