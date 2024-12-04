@@ -1,8 +1,6 @@
 "use client";
-
 import React, { useState } from "react";
 import UserListControls from "@/app/UI/UserListControls";
-
 const initialDummyList = [
   "Movie 1",
   "Movie 2",
@@ -15,22 +13,18 @@ const initialDummyList = [
   "Movie 9",
   "Movie 10",
 ];
-
 const UserList = () => {
   const [movies, setMovies] = useState(initialDummyList);
-
-  // Move a movie up
   const moveUp = (index) => {
-    if (index === 0) return; // Already at the top
+    if (index === 0) return;
     const newMovies = [...movies];
     [newMovies[index - 1], newMovies[index]] = [
       newMovies[index],
       newMovies[index - 1],
-    ]; // Swap
+    ];
     setMovies(newMovies);
   };
 
-  // Move a movie down
   const moveDown = (index) => {
     if (index === movies.length - 1) return; // Already at the bottom
     const newMovies = [...movies];

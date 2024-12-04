@@ -1,21 +1,21 @@
-export default async function MovieDetailsPage({ params }) {
-  const { id } = await params;
+import AddToListButton from "@/app/UI/AddtoListButton";
+
+export default async function MovieDetailsPage({ params: paramsPromise }) {
+  const params = await paramsPromise; // Await params here
+  const { id } = params;
 
   const fetchMovieDetails = async (movieId) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api?id=${movieId}`,
       { cache: "no-store" }
     );
-
     if (!response.ok) {
       throw new Error(`Failed to fetch movie details: ${response.status}`);
     }
-
     return response.json();
   };
 
   let movieData;
-
   try {
     movieData = await fetchMovieDetails(id);
   } catch (error) {
@@ -30,9 +30,7 @@ export default async function MovieDetailsPage({ params }) {
     );
   }
 
-  // Extract the actual movie object from the API response
   const movie = movieData.movie;
-
   return (
     <section className="p-8">
       <h1 className="text-3xl font-bold">{movie.title}</h1>
@@ -49,6 +47,9 @@ export default async function MovieDetailsPage({ params }) {
           <strong>Rating:</strong> {movie.vote_average} / 10
         </li>
       </ul>
+      <div className="mt-6">
+        <AddToListButton />
+      </div>
     </section>
   );
 }
