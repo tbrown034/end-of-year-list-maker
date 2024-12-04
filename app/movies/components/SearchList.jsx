@@ -1,3 +1,4 @@
+import AddToListButton from "@/app/UI/AddtoListButton";
 import Link from "next/link";
 
 export default async function SearchList({ query }) {
@@ -22,10 +23,14 @@ export default async function SearchList({ query }) {
       {data.movies.length > 0 ? (
         <ul className="list-disc list-inside">
           {data.movies.map((movie) => (
-            <li key={movie.id}>
+            <li
+              key={movie.id}
+              className="flex items-center justify-between py-2 border-b"
+            >
               <Link href={`/movies/${movie.id}`} className="hover:font-bold">
                 {movie.title}
               </Link>
+              <AddToListButton />
             </li>
           ))}
         </ul>

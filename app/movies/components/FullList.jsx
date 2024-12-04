@@ -1,6 +1,7 @@
 // movies/components/FullList.jsx
 import Link from "next/link";
 import PaginationControls from "@/app/UI/PaginationControls";
+import AddToListButton from "@/app/UI/AddtoListButton";
 export default async function FullList({ searchParams }) {
   const currentPage = parseInt(searchParams?.page || "1", 10);
 
@@ -15,12 +16,16 @@ export default async function FullList({ searchParams }) {
   return (
     <section className="flex flex-col gap-4">
       <PaginationControls currentPage={currentPage} totalPages={totalPages} />
-      <ul className="list-disc list-inside ">
+      <ul className="list-disc list-inside">
         {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link className="hover:font-bold" href={`/movies/${movie.id}`}>
+          <li
+            key={movie.id}
+            className="flex items-center justify-between py-2 border-b"
+          >
+            <Link href={`/movies/${movie.id}`} className="hover:font-bold">
               {movie.title}
-            </Link>{" "}
+            </Link>
+            <AddToListButton />
           </li>
         ))}
       </ul>
