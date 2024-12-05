@@ -3,22 +3,22 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function SearchBar({ query }) {
+export default function SearchBar({ query, onQueryChange }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Debounced handler for updating the query
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
-      params.set("query", term); // Add or update the query
+      params.set("query", term);
     } else {
-      params.delete("query"); // Remove the query if it's empty
+      params.delete("query");
     }
 
-    router.push(`${pathname}?${params.toString()}`); // Update the URL
+    router.push(`${pathname}?${params.toString()}`);
+    onQueryChange(term);
   }, 300);
 
   return (
@@ -26,8 +26,8 @@ export default function SearchBar({ query }) {
       type="text"
       className="w-full p-2 text-black border rounded-md"
       placeholder="Search movies..."
-      defaultValue={query} // Display the current query in the input field
-      onChange={(e) => handleSearch(e.target.value)} // Trigger search on input change
+      defaultValue={query}
+      onChange={(e) => handleSearch(e.target.value)}
     />
   );
 }
